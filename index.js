@@ -1,5 +1,3 @@
-let dat;
-
 d3
   .json(
     "https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json"
@@ -9,27 +7,8 @@ d3
     // fancyTimeFormat(data);
   });
 
-// function calculateSecondsBehindFastest(d) {
-//   //think about non-mutatio  of array
-//   var fastestTime = d[0].Seconds;
-//   var cyclists = d.map(function(cyclist) {
-//     var timeBehindSeconds = cyclist.Seconds - fastestTime;
-//     var mins = Math.floor(timeBehindSeconds / 60);
-//     var seconds = timeBehindSeconds - mins * 60;
-//
-//     cyclist.secondsBehindFastest = mins + ":" + seconds;
-//     //instead return minutes & seconds behind fastestTime
-//     console.log(cyclist.secondsBehindFastest);
-//     return cyclist;
-//   });
-//
-//   svgElements(cyclists);
-//   // console.log(d);
-// }
 //calculate minutes behind fastest time
 function calculateSecondsBehindFastest(d) {
-  //think about non-mutatio  of array
-  var dateTimes = [];
   var fastestTime = d[0].Seconds;
   var cyclists = d.map(function(cyclist) {
     var timeBehindSeconds = cyclist.Seconds - fastestTime;
@@ -37,24 +16,20 @@ function calculateSecondsBehindFastest(d) {
     var seconds = timeBehindSeconds - mins * 60;
     let theTime = new Date(99, 5, 24, 00, mins, seconds, 0);
     cyclist.dateTime = theTime;
-    cyclist.secondsBehindFastest = cyclist.Seconds - fastestTime;
+    // cyclist.secondsBehindFastest = cyclist.Seconds - fastestTime;
     return cyclist;
   });
-  // console.log(cyclists);
-  dete = cyclists[0];
-  dat = cyclists;
+
   svgElements(cyclists);
-  // console.log(d);
 }
-var dete;
 
 var xScale;
 var yScale;
 
-var margin = { top: 60, right: 60, bottom: 80, left: 70 };
+var margin = { top: 80, right: 200, bottom: 60, left: 70 };
 
-var chartWidth = 1100 - margin.left - margin.right;
-var chartHeight = 700 - margin.top - margin.bottom;
+var chartWidth = 800 - margin.left - margin.right;
+var chartHeight = 600 - margin.top - margin.bottom;
 
 function svgElements(cyclists) {
   var dataset = cyclists;
@@ -62,16 +37,16 @@ function svgElements(cyclists) {
   var svg = d3
     .select("#chart")
     .append("svg")
-    .attr("height", chartHeight + margin.left + margin.right)
-    .attr("width", chartWidth + margin.bottom + margin.top)
+    .attr("height", chartHeight + margin.bottom + margin.top)
+    .attr("width", chartWidth + margin.left + margin.right)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  // svg
-  //   .append("h1")
-  //   .text("Doping in Professional Bicycle Racing")
-  //   .attr("class", "title")
-  //   .attr("x", 340);
+  svg
+    .append("h1")
+    .text("Doping in Professional Bicycle Racing")
+    .attr("class", "title")
+    .attr("x", 340);
 
   //create scales
 
@@ -84,70 +59,28 @@ function svgElements(cyclists) {
     .domain([d3.min(positions), d3.max(positions) + 1])
     .range([0, chartHeight]);
 
-  // xScale = d3
-  //   .scaleTime()
-  //   .domain([
-  //     d3.max(dataset, function(d) {
-  //       // var time = d.Time.replace(/\:/g, ".");
-  //       return d.secondsBehindFastest + 20;
-  //     }),
-  //     d3.min(dataset, function(d) {
-  //       // var time = d.Time.replace(/\:/g, ".");
-  //       // console.log(d.secondsBehindFastest);
-  //       return d.secondsBehindFastest;
-  //     })
-  //   ])
-  //   .range([0, chartWidth]);
-  // let one = cyclists[0].dateTime;
-  // console.log(new Date(one.setSeconds(one.getSeconds() + 30));
-
-  // dataset.map(e => {
-  //   let date = e.dateTime;
-  //   return new Date(date.setSeconds(date.getSeconds()));
-  // });
-  //
-  // var fastest = d3.max(dataset, function(d) {
-  //   return d.dateTime;
-  // });
-  // var slowest = d3.min(dataset, function(d) {
-  //   return d.dateTime;
-  // });
-  // console.log(slowest);
-  // console.log(fastest);
-
-  // var timeObj = dataset.map(function(e) {
-  //   return e.dateTime;
-  // });
-  //
-  // var slowest = timeObj[34];
-  //
-  // var slow = new Date(slowest.setSeconds(slowest.getSeconds() + 30));
-  // console.log(slow);
-  // console.log(dataset);
+  var maxTime = new Date("Jun 24 1999 00:03:10");
 
   xScale = d3
     .scaleTime()
     .domain([
-      d3.max(dataset, function(d) {
-        return d.dateTime;
-      }),
+      maxTime,
       d3.min(dataset, function(d) {
         return d.dateTime;
       })
     ])
     .range([0, chartWidth]);
 
-  //
-  // console.log(cyclists);
-
   var allTimes = dataset.map(e => {
     return e.timeBehindSeconds;
   });
-  // console.log(allTimes);
+
+  // create axes
+
   var xAxis = d3
     .axisBottom(xScale)
-    .ticks(5)
-    .tickFormat(d3.timeFormat("%M:%S"), 5);
+    .ticks(4)
+    .tickFormat(d3.timeFormat("%M:%S"), 4);
 
   svg
     .append("g")
@@ -162,11 +95,9 @@ function svgElements(cyclists) {
     .attr("class", "y-axis")
     .call(yAxis);
 
-  // console.log(Math.ceil(yScale(dataset[32].Place)));
-
-  //convert d.Time into times
-
   //create svgElements
+
+  console.log(dataset[9]);
 
   var circles = svg
     .selectAll("circle")
@@ -181,7 +112,72 @@ function svgElements(cyclists) {
       return yScale(d.Place);
     })
     .attr("r", 5)
-    .attr("fill", "#D1AB0E");
+    .attr("fill", function(d) {
+      if (d.Doping.length > 0) {
+        return "rgb(12, 224, 72)";
+      } else {
+        return "#D1AB0E";
+      }
+    })
+    .on("mouseover", function(d) {
+      d3.select(this).attr("stroke", "rgb(27, 136, 215)");
 
-  // create axis
+      d3
+        .select("#tooltip")
+        .style("opacity", "0.8")
+        .style("left", 100 + "px")
+        .style("top", 100 + "px")
+        .style("display", "block")
+        .html(
+          d.Name +
+            ": " +
+            d.Nationality +
+            "</br>" +
+            d.Year +
+            ", Time: " +
+            d.Time +
+            "</br>" +
+            "</br>" +
+            d.Doping
+        );
+    })
+    .on("mouseout", function() {
+      d3.select("#tooltip").style("display", "none");
+      d3.select(this).attr("stroke", "none");
+    });
+
+  svg
+    .append("g")
+    .selectAll("text")
+    .data(dataset)
+    .enter()
+    .append("text")
+    .text(function(d) {
+      return d.Name;
+    })
+    .attr("x", function(d) {
+      return xScale(d.dateTime) + 10;
+    })
+    .attr("y", function(d) {
+      return yScale(d.Place) + 5;
+    })
+    .style("font-family", "sans-serif")
+    .style("font-size", 12)
+    .attr("class", "names");
+
+  svg
+    .append("text")
+    .text("Minutes behind fastest time")
+    .attr("class", "xInfo")
+    .attr("y", chartHeight + margin.top - 35)
+    .attr("x", +180);
+
+  svg
+    .append("text")
+    .text("Ranking")
+    .attr("class", "yInfo")
+    .attr("y", -35)
+    .attr("transform", "rotate(-90)")
+    .attr("x", -55);
+  // .attr("x");
 }
