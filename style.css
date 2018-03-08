@@ -1,25 +1,41 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+  background-color: rgb(206, 250, 252);
+}
+
+/* .overlay {
+  background-color: rgba(211, 141, 240, 0.2);
+  margin: 0;
+  padding-top: 2%;
+  padding-bottom: 2%;
+} */
+
 #chart {
   position: relative;
   width: 800px;
   height: 600px;
   background-color: #f7f7f7;
-  margin: 5% auto;
+  margin: 2% auto;
   filter: drop-shadow(0 0 0.2rem rgb(79, 76, 78));
 }
 
-h1 {
-  text-align: center;
-  font-family: sans-serif;
-  padding-top: 5%;
+.heading {
   font-size: 1.5rem;
 }
+.subheading {
+  font-size: 0.9rem;
+}
 
+.smallheading {
+  font-size: 0.7rem;
+}
 .y-axis path y.axis line {
   shape-rendering: crispEdges;
 }
 
 .y-axis text {
-  font-family: sans-serif;
   font-weight: bold;
   font-size: 16px;
 }
@@ -28,7 +44,6 @@ h1 {
 }
 
 .x-axis text {
-  font-family: sans-serif;
   font-weight: bold;
   font-size: 16px;
 }
@@ -36,29 +51,56 @@ h1 {
 #tooltip {
   position: absolute;
   width: 130px;
-  padding: 10px;
+  padding: 1%;
   background-color: white;
   border-radius: 5px;
-  border: 1px solid #000;
+  border: 3px solid #white;
   pointer-events: none;
   display: none;
-  font-family: sans-serif;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: bold;
   text-align: center;
 }
 
 .xInfo {
-  font-family: sans-serif;
   font-size: 1rem;
 }
 
 .yInfo {
-  font-family: sans-serif;
   font-size: 1rem;
 }
-/* @media screen and (max-width: 600px) {
-  .names {
-    display: none;
-  }
-} */
+
+.container {
+  width: 800px;
+  margin: 0 auto;
+}
+
+p {
+  margin: 0;
+  font-size: 1rem;
+  color: white;
+}
+
+.key {
+  font-size: 0.8rem;
+}
+
+/* unvisited link */
+a:link {
+  color: white;
+}
+
+/* visited link */
+a:visited {
+  color: white;
+}
+
+/* mouse over link */
+a:hover {
+  color: white;
+}
+
+/* selected link */
+a:active {
+  color: white;
+}
