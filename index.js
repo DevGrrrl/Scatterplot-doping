@@ -4,7 +4,6 @@ d3
   )
   .then(function(data) {
     calculateSecondsBehindFastest(data);
-    // fancyTimeFormat(data);
   });
 
 //calculate minutes behind fastest time
@@ -14,12 +13,10 @@ function calculateSecondsBehindFastest(d) {
     var timeBehindSeconds = cyclist.Seconds - fastestTime;
     var mins = Math.floor(timeBehindSeconds / 60);
     var seconds = timeBehindSeconds - mins * 60;
-    let theTime = new Date(99, 5, 24, 00, mins, seconds, 0);
+    var theTime = new Date(99, 5, 24, 00, mins, seconds, 0);
     cyclist.dateTime = theTime;
-    // cyclist.secondsBehindFastest = cyclist.Seconds - fastestTime;
     return cyclist;
   });
-  console.log(cyclists);
   svgElements(cyclists);
 }
 
@@ -87,6 +84,7 @@ function svgElements(cyclists) {
     .attr("x", 520)
     .attr("y", 230)
     .text("Riders with doping allegations");
+
   //create scales
 
   var positions = dataset.map(function(e) {
@@ -143,7 +141,6 @@ function svgElements(cyclists) {
     .enter()
     .append("circle")
     .attr("cx", function(d) {
-      // console.log(d.dateTime);
       return xScale(d.dateTime);
     })
     .attr("cy", function(d) {
@@ -157,8 +154,6 @@ function svgElements(cyclists) {
         return "#E3B94F";
       }
     })
-
-    //how to turn names off with button on screen
 
     .on("mouseover", function(d) {
       d3
@@ -228,5 +223,4 @@ function svgElements(cyclists) {
     .attr("y", -35)
     .attr("transform", "rotate(-90)")
     .attr("x", -55);
-  // .attr("x");
 }

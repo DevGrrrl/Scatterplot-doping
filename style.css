@@ -2,15 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  background-color: rgb(206, 250, 252);
+  background-color: rgb(190, 225, 235);
 }
-
-/* .overlay {
-  background-color: rgba(211, 141, 240, 0.2);
-  margin: 0;
-  padding-top: 2%;
-  padding-bottom: 2%;
-} */
 
 #chart {
   position: relative;
