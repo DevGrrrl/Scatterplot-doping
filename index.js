@@ -8,16 +8,23 @@ d3
 
 //calculate minutes behind fastest time
 function calculateSecondsBehindFastest(d) {
+
+  //copy data to avoid mutation
+  var dataCopy = []
+   d.map(function(cyclist) {
+   var obj= Object.assign({}, cyclist)
+   dataCopy.push(obj)
+  })
   var fastestTime = d[0].Seconds;
-  var cyclists = d.map(function(cyclist) {
-    var timeBehindSeconds = cyclist.Seconds - fastestTime;
-    var mins = Math.floor(timeBehindSeconds / 60);
-    var seconds = timeBehindSeconds - mins * 60;
-    var theTime = new Date(99, 5, 24, 00, mins, seconds, 0);
-    cyclist.dateTime = theTime;
-    return cyclist;
-  });
-  svgElements(cyclists);
+  dataCopy.map(function(cyclist) {
+    var secondsBehind = cyclist.Seconds - fastestTime;
+    var minutes = Math.floor(secondsBehind / 60);
+    var seconds = secondsBehind - minutes * 60;
+    var theTime = new Date(99, 5, 24, 00, minutes, seconds, 0);
+    cyclist.dateTime = theTime;    
+  return cyclist;
+  })
+  svgElements(dataCopy);
 }
 
 var xScale;
@@ -31,6 +38,7 @@ var chartHeight = 600 - margin.top - margin.bottom;
 function svgElements(cyclists) {
   var dataset = cyclists;
 
+
   var svg = d3
     .select("#chart")
     .append("svg")
@@ -39,6 +47,7 @@ function svgElements(cyclists) {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    //Title & headings
   svg
     .append("text")
     .text("Doping in Professional Bicycle Racing")
@@ -59,6 +68,9 @@ function svgElements(cyclists) {
     .attr("class", "smallheading")
     .attr("x", 247)
     .attr("y", 0);
+
+//Keys
+
   svg
     .append("circle")
     .attr("cx", 500)
@@ -85,15 +97,16 @@ function svgElements(cyclists) {
     .attr("y", 230)
     .text("Riders with doping allegations");
 
+    
   //create scales
 
-  var positions = dataset.map(function(e) {
+  var ranking = dataset.map(function(e) {
     return e.Place;
   });
 
   yScale = d3
     .scaleLinear()
-    .domain([d3.min(positions), d3.max(positions) + 1])
+    .domain([d3.min(ranking), d3.max(ranking) + 1])
     .range([0, chartHeight]);
 
   var maxTime = new Date("Jun 24 1999 00:03:10");
@@ -163,7 +176,7 @@ function svgElements(cyclists) {
 
       d3
         .select("#tooltip")
-        .style("background-color", "rgba(194, 111, 251, 0.66")
+        .style("background-color", "#E3B94F")
         .style("opacity", "0.8")
         .style("left", 100 + "px")
         .style("top", 100 + "px")
@@ -187,7 +200,7 @@ function svgElements(cyclists) {
       d3
         .select(this)
         .attr("stroke", "none")
-        .style("cursor", "defaulte");
+        .style("cursor", "default");
     });
 
   svg
