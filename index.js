@@ -20,8 +20,9 @@ function calculateSecondsBehindFastest(d) {
     var secondsBehind = cyclist.Seconds - fastestTime;
     var minutes = Math.floor(secondsBehind / 60);
     var seconds = secondsBehind - minutes * 60;
-    var theTime = new Date(99, 5, 24, 00, minutes, seconds, 0);
-    cyclist.dateTime = theTime;    
+    var timeParse = d3.timeParse('%M:%S');
+    var theTime = timeParse(minutes + ":" + seconds);
+    cyclist.dateTime = theTime;  
   return cyclist;
   })
   svgElements(dataCopy);
@@ -109,8 +110,10 @@ function svgElements(cyclists) {
     .domain([d3.min(ranking), d3.max(ranking) + 1])
     .range([0, chartHeight]);
 
-  var maxTime = new Date("Jun 24 1999 00:03:10");
-  var minTime = new Date("Thu Jun 24 1999 00:00:00");
+  
+  var timeParse = d3.timeParse('%M:%S');
+  var maxTime = timeParse("03:10")
+  var minTime = timeParse("00:00");
 
   xScale = d3
     .scaleTime()
@@ -123,7 +126,7 @@ function svgElements(cyclists) {
     .range([0, chartWidth]);
 
   var allTimes = dataset.map(e => {
-    return e.timeBehindSeconds;
+    return e.secondsBehind;
   });
 
   // create axes
