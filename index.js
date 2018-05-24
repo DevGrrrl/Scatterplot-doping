@@ -8,23 +8,22 @@ d3
 
 //calculate minutes behind fastest time
 function calculateSecondsBehindFastest(d) {
-
   //copy data to avoid mutation
-  var dataCopy = []
-   d.map(function(cyclist) {
-   var obj= Object.assign({}, cyclist)
-   dataCopy.push(obj)
-  })
+  var dataCopy = [];
+  d.map(function(cyclist) {
+    var obj = Object.assign({}, cyclist);
+    dataCopy.push(obj);
+  });
   var fastestTime = d[0].Seconds;
   dataCopy.map(function(cyclist) {
     var secondsBehind = cyclist.Seconds - fastestTime;
     var minutes = Math.floor(secondsBehind / 60);
     var seconds = secondsBehind - minutes * 60;
-    var timeParse = d3.timeParse('%M:%S');
+    var timeParse = d3.timeParse("%M:%S");
     var theTime = timeParse(minutes + ":" + seconds);
-    cyclist.dateTime = theTime;  
-  return cyclist;
-  })
+    cyclist.dateTime = theTime;
+    return cyclist;
+  });
   svgElements(dataCopy);
 }
 
@@ -39,7 +38,6 @@ var chartHeight = 600 - margin.top - margin.bottom;
 function svgElements(cyclists) {
   var dataset = cyclists;
 
-
   var svg = d3
     .select("#chart")
     .append("svg")
@@ -48,7 +46,7 @@ function svgElements(cyclists) {
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    //Title & headings
+  //Title & headings
   svg
     .append("text")
     .text("Doping in Professional Bicycle Racing")
@@ -70,7 +68,7 @@ function svgElements(cyclists) {
     .attr("x", 247)
     .attr("y", 0);
 
-//Keys
+  //Keys
 
   svg
     .append("circle")
@@ -98,7 +96,6 @@ function svgElements(cyclists) {
     .attr("y", 230)
     .text("Riders with doping allegations");
 
-    
   //create scales
 
   var ranking = dataset.map(function(e) {
@@ -110,9 +107,8 @@ function svgElements(cyclists) {
     .domain([d3.min(ranking), d3.max(ranking) + 1])
     .range([0, chartHeight]);
 
-  
-  var timeParse = d3.timeParse('%M:%S');
-  var maxTime = timeParse("03:10")
+  var timeParse = d3.timeParse("%M:%S");
+  var maxTime = timeParse("03:10");
   var minTime = timeParse("00:00");
 
   xScale = d3
@@ -164,11 +160,7 @@ function svgElements(cyclists) {
     })
     .attr("r", 5)
     .attr("fill", function(d) {
-      if (d.Doping.length > 0) {
-        return "rgb(194, 111, 251)";
-      } else {
-        return "#E3B94F";
-      }
+      return d.Doping.length > 0 ? "rgb(194, 111, 251)" : "#E3B94F";
     })
 
     .on("mouseover", function(d) {
