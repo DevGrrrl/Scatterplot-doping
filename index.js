@@ -37,7 +37,6 @@ var chartHeight = 600 - margin.top - margin.bottom;
 
 function svgElements(cyclists) {
   var dataset = cyclists;
-
   var svg = d3
     .select("#chart")
     .append("svg")
@@ -67,6 +66,7 @@ function svgElements(cyclists) {
     .attr("class", "smallheading")
     .attr("x", 247)
     .attr("y", 0);
+
 
   //Keys
 
@@ -108,7 +108,7 @@ function svgElements(cyclists) {
     .range([0, chartHeight]);
 
   var timeParse = d3.timeParse("%M:%S");
-  var maxTime = timeParse("03:10");
+  var maxTime = timeParse("03:20");
   var minTime = timeParse("00:00");
 
   xScale = d3
@@ -125,18 +125,29 @@ function svgElements(cyclists) {
     return e.secondsBehind;
   });
 
-  // create axes
+  // create x axis
+  var timeFormat = d3.timeFormat("%M:%S");
 
   var xAxis = d3
     .axisBottom(xScale)
-    .ticks(6)
-    .tickFormat(d3.timeFormat("%M:%S"), 6);
+    .ticks(5)
+    .tickFormat(timeFormat);
 
   svg
     .append("g")
     .attr("class", "x-axis")
     .attr("transform", "translate(0," + chartHeight + ")")
     .call(xAxis);
+
+  // create x axis label
+  svg
+    .append("text")
+    .text("Minutes behind fastest time")
+    .attr("class", "xInfo")
+    .attr("y", chartHeight + margin.top - 35)
+    .attr("x", 340);
+
+  //create y axis
 
   var yAxis = d3.axisLeft(yScale);
 
@@ -145,7 +156,17 @@ function svgElements(cyclists) {
     .attr("class", "y-axis")
     .call(yAxis);
 
-  //create svgElements
+  // create y axis label
+  svg
+    .append("text")
+    .text("Ranking")
+    .attr("class", "yInfo")
+    .attr("y", -35)
+    .attr("transform", "rotate(-90)")
+    .attr("x", -55);
+
+  //create svg circles
+
   svg
     .append("g")
     .selectAll("circle")
@@ -162,6 +183,8 @@ function svgElements(cyclists) {
     .attr("fill", function(d) {
       return d.Doping.length > 0 ? "rgb(194, 111, 251)" : "#E3B94F";
     })
+
+    //create tooltips
 
     .on("mouseover", function(d) {
       d3
@@ -190,6 +213,7 @@ function svgElements(cyclists) {
             d.Doping
         );
     })
+
     .on("mouseout", function() {
       d3.select("#tooltip").style("display", "none");
       d3
@@ -198,6 +222,7 @@ function svgElements(cyclists) {
         .style("cursor", "default");
     });
 
+  // create labels for each data point
   svg
     .append("g")
     .selectAll("text")
@@ -216,19 +241,4 @@ function svgElements(cyclists) {
     .style("font-family", "sans-serif")
     .style("font-size", 12)
     .attr("class", "names");
-
-  svg
-    .append("text")
-    .text("Minutes behind fastest time")
-    .attr("class", "xInfo")
-    .attr("y", chartHeight + margin.top - 35)
-    .attr("x", 340);
-
-  svg
-    .append("text")
-    .text("Ranking")
-    .attr("class", "yInfo")
-    .attr("y", -35)
-    .attr("transform", "rotate(-90)")
-    .attr("x", -55);
 }

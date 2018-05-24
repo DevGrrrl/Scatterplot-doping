@@ -24,8 +24,8 @@ body {
 .smallheading {
   font-size: 0.7rem;
 }
-.y-axis path, y.axis line,
-.x-axis path, x.axis line {
+.y-axis path y.axis line,
+.x-axis path x.axis line {
   shape-rendering: crispEdges;
 }
 
