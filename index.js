@@ -43,7 +43,7 @@ function svgElements(cyclists) {
     // .attr("height", chartHeight + margin.bottom + margin.top)
     // .attr("width", chartWidth + margin.left + margin.right)
     .attr('viewBox', '0 0 800 600')
-    .attr('preserveAspectRatio', 'xMidYmid')
+    .attr('preserveAspectRatio', 'xMidYMid')
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
