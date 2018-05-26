@@ -11,5 +11,4 @@ Build a scatterplot that is functionall similart to [this](https://codepen.io/Fr
 
 Screenshot of my project: 
 
-![doping](https://user-images.githubusercontent.com/22034073/37281224-3a6415f4-25e8-11e8-9c10-fa87bfdd87ad.gif)
-
+![dopingchart](https://user-images.githubusercontent.com/22034073/40577179-2d37f23c-60f9-11e8-9311-e3e3d8d22c77.gif)
