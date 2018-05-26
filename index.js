@@ -40,8 +40,10 @@ function svgElements(cyclists) {
   var svg = d3
     .select("#chart")
     .append("svg")
-    .attr("height", chartHeight + margin.bottom + margin.top)
-    .attr("width", chartWidth + margin.left + margin.right)
+    // .attr("height", chartHeight + margin.bottom + margin.top)
+    // .attr("width", chartWidth + margin.left + margin.right)
+    .attr('viewBox', '0 0 800 600')
+    .attr('preserveAspectRatio', 'xMidYmid')
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -66,7 +68,6 @@ function svgElements(cyclists) {
     .attr("class", "smallheading")
     .attr("x", 247)
     .attr("y", 0);
-
 
   //Keys
 
@@ -110,6 +111,9 @@ function svgElements(cyclists) {
   var timeParse = d3.timeParse("%M:%S");
   var maxTime = timeParse("03:20");
   var minTime = timeParse("00:00");
+
+  //get maxTime from the data and add 10 seconds to it
+
 
   xScale = d3
     .scaleTime()
